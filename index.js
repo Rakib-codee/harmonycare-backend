@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
 
+require('dotenv').config();
+
 function initFirebase() {
   if (admin.apps.length) return;
 
@@ -393,5 +395,10 @@ app.post('/api/admin/cleanup', async (req, res) => {
     res.status(500).json({ error: e.message || 'Server error' });
   }
 });
+
+if (require.main === module) {
+  const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+  app.listen(port);
+}
 
 module.exports = app;
